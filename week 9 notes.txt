@@ -1,2 +1,26 @@
 Introduction to Shell Scripting (BASH)
 
+#! shebang only at top of script (first thing)
+
+# comments
+
+
+Automation:
+
+Linear Script - sequence of instructions 
+                followed explicitely by the computer
+
+Conditional Branching - 
+
+
+if [[ ! -e $file_name'.'$file_extension ]] (BOOLEAN EXPRESSION)
+then
+    touch $file_name'.'$file_extension
+    pwd
+    ls -l *.$file_extension
+else
+    echo File already exits!
+fi 
+
+add all the boolean goodness
+
