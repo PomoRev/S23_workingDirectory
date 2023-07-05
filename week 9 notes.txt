@@ -1,5 +1,8 @@
 Introduction to Shell Scripting (BASH)
 
+BASH cheat sheet of the week!
+https://devhints.io/bash
+
 #! shebang only at top of script (first thing)
 
 # comments
@@ -7,20 +10,97 @@ Introduction to Shell Scripting (BASH)
 
 Automation:
 
+Scripting is an easy way to automate common, repetitive tasks that 
+can include a lot of steps. A lot of what you will do as programmers 
+relies on or creates means to automate. 
+
 Linear Script - sequence of instructions 
                 followed explicitely by the computer
 
-Conditional Branching - 
+Conditional Branching - sequence of instructions that allow
+                        some choices to be made by Boolean logic
+                        tests inside the script.
 
 
-if [[ ! -e $file_name'.'$file_extension ]] (BOOLEAN EXPRESSION)
-then
-    touch $file_name'.'$file_extension
-    pwd
-    ls -l *.$file_extension
-else
-    echo File already exits!
-fi 
+    if [[ ! -e $file_name'.'$file_extension ]]  (BOOLEAN EXPRESSION)
+    then                                        (IF TRUE DO THIS)
+        touch $file_name'.'$file_extension
+        pwd
+        ls -l *.$file_extension
+    else                                        (OTHERWISE DO THIS)
+        echo File already exits!
+    fi                                          (TERMINATES THE CONDITIONAL CODE)
 
-add all the boolean goodness
+Here is a reference for the if conditional branching construct:
+
+THE if STATEMENT
+
+    if [[ conditional expression ]]; then
+        statements
+    elif [[ conditional expression ]]; then
+        statements
+    else
+        statements
+    fi 
+
+Other than some strange syntax, the if statement works exactly as you would
+expect. Note that the semi-colon (;) is only needed when you put the second
+command (then) on the same line as the if [[ command. 
+
+CONDITIONAL EXPRESSIONS
+
+[[ conditional expression ]]   ( [[ is a command that returns a boolean value )
+
+Numbers 
+[[ number -eq number ]]  (-ne,-lt,-le,-gt,-ge) comparison
+
+Strings
+
+[[ -z stringname ]] is the string empty?
+[[ -n stringname ]] is the string not empty? same as [[ ! -z stringname ]]
+[[ stringname == stringname ]] equality
+[[ stringname != stringname ]] inequality
+
+Files
+
+[[ -e filename ]] does the file exist?
+[[ -r filename ]] is the file readable?
+[[ -d filename ]] is the file a directory?
+[[ -w filename ]] is the file writable?
+[[ -x filename ]] is it executable?
+[[ -f filename ]] is it a file?
+[[ filename1 -nt filename2 ]] is filename1 newer than filename2
+[[ filename1 -ot filename2 ]] is filename1 older than filename2
+[[ filename1 -ef filename2 ]] is filename1 the same as filename2
+
+! - reverses the boolean value (NOT operator)
+
+You can combine Boolean tests inside the [[ command using 
+these logical connectors.
+
+&& - logical AND connector
+|| - logical OR connector
+
+
+User guided scripts using command line parameters (arguments)
+
+COMMAND LINE PARAMETERS
+
+When we create a script we are making an executable that can take and 
+parse any number of command line parameters. Note that command line 
+parameters are delimited by spaces and will expand GLOB patterns. 
+These built in variables are set by the shell to handle command line 
+parameters.
+
+$#  returns the number of command line parameters (can change with shift)
+$*  returns all of the parameters as a single string
+$@  returns all of the parameters as separate strings
+$0  returns the command (does not change with shift)
+$1..9   returns each of the first 9 parameters, $1 for the first one, etc. 
+
+shift # where the # represents a number of arguments to throw away, 
+    shifts the position of $1 to the next element essentially allowing 
+    us to use more than 9 parameters. Be careful, a shift cannot be undone.
+
+NEXT TIME WE WILL TALK IN DETAIL ABOUT SHELL VARIABLES...
 
