@@ -1,0 +1,9 @@
+make sure you are using an adaptor that is connected, like NAT. (VMWARE)
+
+bounce the network services on Linux:
+
+    sudo nmcli networking off
+    sudo nmcli networking on
+
+then in settings wired should be back and you can turn it on to restore
+network connectivity.
