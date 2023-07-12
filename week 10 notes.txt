@@ -1,14 +1,237 @@
 BASH Shell Variables
 
-Simple symbolic replacement (strings)
+BASH variables are simple symbolic replacement values (strings).
+
+echo $name          only returns the first name because it does not retain the 
+                    quotation marks
+echo ${name}   or echo "$name"   will retain the space and hence print the whole
+                    name.
+
+
+Variables also have local scope within a script, and this is true of functions which 
+can have local variables (which it uses by preference) and access to the calling 
+context's variables. Global variables are those available to the BASH instance and 
+can be seen with the env command. 
 
 scope
 
-functions
+we need to be specific to create a local (for a function) variable. By default
+variables are hoisted to their script context. But the script runs in a shell 
+that goes away after the script is run. If you want to preserve a value you need to export
+that value to the calling environment.
 
-if and case
+FUNCTIONS
+
+groups repeated operations. functions should do one thing. They can take arguments the same 
+way as a script ( $1..9 etc. ), so if you need arguments from the calling environment you
+must send them to the funtion in the function call (which looks like any other CLI program in BASH)
 
 
-looping
+CONDITIONAL BRANCHING
+
+The if Statement
+
+if [expression]; then
+
+    echo expression is true
+
+elif [expression]; then
+
+    echo other expression is true, but not first one
+
+else
+
+    echo neither were true
+
+fi
+
+The if..elif..else statement is fairly universal in modern languages today. 
+
+The Switch or case Statement
+
+The case statement is used to do simple pattern matching. It uses the following
+rules:
+
+-	Start with case ends with esac
+-	Performs simple pattern matching (strings and characters)
+-	Multiple patterns use an or (|) operator
+-	Patterns with spaces must be quoted
+-	Patterns can have special characters (GLOB) although it does 
+    not use RegEx, just BLOG pattern matching.
+-	Every pattern set ends with a closing parenthesis ) character
+-	The * GLOB pattern is used to catch all other cases, 
+    like an else or a default case
+-	The pattern and the statements that belong to that pattern being 
+    matched are called a clause
+-	Every clause must end with a double semi-colon ;;
+-	Only the first match for a clause will be executed.
+-	Once a pattern is matched once the program flow continues 
+    past the case statement. 
+
+case [value] in 
+
+    [pattern(s)])
+
+        statements....
+        ;;
+
+    *)  #default pattern, think about how GLOB works
+
+        statements....
+        ;;
+
+esac 
+
+
+LOOPING
+
+In terms of looping if you know how many times you are going to loop 
+before you start the loop then you use a for loop (of some variety),
+otherwise you use a traditional indefinite loop aka a while loop.
+
+
+The C style for loop
+
+for (( i=0; i<4; i++ ))
+do
+    echo " loop $i"
+done 
+
+
+Data iteration for loop
+
+for line in $(ls)
+do
+    echo ":: $line"
+done
+
+Range iteration for loop
+
+for i in {a..g}
+do
+    touch "file_$i.txt"
+done
+
+Traditional While loop
+
+ls | while read line
+do
+    echo "---> $line"
+done
+
+Although a better use case for a while loop is around a control bock for 
+a menu or block where we cannot calculate the number of iterations before 
+we run the loop.
+
+
+EXPANSION
+
+The notion of expansion is that that an expression or command is evaluated and 
+the results are returned as the "expanded" value. 
+
+$variable_name or ${variable_name} both expand the variable to what value 
+it currently holds
+
+$( command ) runs the command in a subshell and expands into the returned
+results, these commands can also have their own output
+
+$(( mathematical_expression )) this will perform the math and expand into the 
+result of the mathematical expression.
+
+
+
+BASH SPECIAL CHARACTERS 
+
+Here is a handy reference:
+
+␢           Whitespace character is used to delimit 
+            words and parameters. 
+$           Expansion
+'content'   Single Quotes are used to preserve the literal 
+            value of the content, variables and GLOB characters 
+            will not be expanded.
+"content"   Double Quotes are used to protect the words inside 
+            from splitting but does not restrict expansion 
+            using the $ symbol.
+\           Escape (backslash) prevents the next character from 
+            being interpreted as a special character, works outside 
+            of quotes or inside double quotes, but not inside single 
+            quotes where it is ignored.
+#           Comment
+=           Assignment where whitespace is not allowed on either 
+            side of the assignment character.
+[[ expression ]]    Test used to evaluate an expression and 
+                    return a Boolean value
+!           Negate will reverse a test result or the exit status 
+            of a function or command (Boolean NOT)
+>, >>, <    Redirection:
+    <       Redirects the stdio output to the previous command
+    <<      Redirects a document to the previous command
+    <<<     Redirects a string to the previous command
+|           Pipe which sends the output from one command to another.
+;           End command is used to separate commands on a single line.
+{ }         Inline operator causes the commands inside to be 
+            treated as if they were a single command and can be used 
+            to create anonymous functions or preserve whitespace in 
+            expansion. This is also used for brace expansion like in 
+            our fancy for…in loop. 
+( )         Subshell group which will execute commands in a new 
+            process (subshell) so that we do not need to worry about 
+            any variables that may be changed. Think of it like calling 
+            a function with its own temporary local environment.
+(( ))       Arithmetic expression when used without a $ character you can 
+            actually do assignments inside: (( foo = 8 + 9 ))
+&           Run in background can be added to the end of a command so 
+            that the shell script will not wait for it to complete 
+            before beginning the next command. 
+
+
+READ COMMAND 
+
+The read command will read input from the stdin stream and puts it in a
+variable or set of variables. The read command has a default named location 
+($REPLY) that can be used to access the read data. Read is a great way to 
+collect user input in a script or simply to capture data from a command 
+or a file. If we want to read in all the values in an array we can use the
+-a option, if we want to output a prompt the -p option is helpful. 
+
+read -p "What is your name?: " username
+
+or 
+
+read var1 var2 <<< "Hello World"
+
+
+STRING SLICING AND REPRESENTATION THROUGH EXPANSION 
+
+${name}         expands as the value of the variable name
+                it is a literal string replacement
+
+Using the format ${variablename:position:length} we can slice up
+the expanded string into substrings.
+
+${name:0:1} or ${name::1}   expands to the first character of the 
+                string value in name
+${name::4}      expands to the first four characters of the value
+                in name
+${name: -1:1}   expands to the last character of the value in name
+${name: -2:2}   expands to the last two characters of the value in name
+
+We can use similar syntax to do simple character replacement.
+
+${name/F/f}     expands to the value in name but all capital F characters
+                are expanded as lowercase fs.
+
+We can also use default values for when variables may not be set yet. And
+finally we can change the case of the expanded value:
+
+${name,,}       expands to the value of name but all alphabetic characters
+                are converted to lower case (just one , will make only the
+                first character small)
+${name^^}       same as above but will capitalize all the alphabetic
+                characters and there is also a single ^ version for just 
+                the first letter of the value name.
+
+
 
 
