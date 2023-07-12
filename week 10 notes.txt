@@ -1,4 +1,14 @@
-BASH Variables
+BASH Shell Variables
 
 Simple symbolic replacement (strings)
+
+scope
+
+functions
+
+if and case
+
+
+looping
+
 

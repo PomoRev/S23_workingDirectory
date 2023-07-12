@@ -10,6 +10,11 @@ prepend=true;
 
 case $1 in
 
+    '*')
+        echo "hit an asterisk"
+        prepend=false;
+        ;; 
+
     Canada)
         echo "$USER g'day eh"
         prepend=false

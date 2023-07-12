@@ -9,11 +9,12 @@ function mixup {
 
     test_variable="Well Hello"
     local another_variable="world"
-    echo "$test_variable $another_variable"
+    even_another_variable="oh my"
+    echo "$test_variable $another_variable $even_another_variable"
 
 }
 
 
 echo "$test_variable $another_variable"
 mixup
-echo "$test_variable $another_variable"
+echo "$test_variable $another_variable $even_another_variable"
