@@ -1,0 +1,4 @@
+BASH Variables
+
+Simple symbolic replacement (strings)
+
