@@ -15,8 +15,6 @@
             five characters  - 7 space (before 0)
             four characters  - 5 spaces ( before 1 )    
 
-
-
 '
 
 # print out the first line starting with spaces equal to the width - 1 then the character

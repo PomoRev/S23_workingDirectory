@@ -1,0 +1,15 @@
+This week in Lecture Class
+
+Lab Due Date Lab 8 = Friday July 28th
+             Lab 9 = Friday Aug  11th
+
+Redirection
+
+/dev/null
+
+>, <, << 
+
+Clobbering as a system setting
+
+Functionality - Menu code
+
