@@ -5,11 +5,11 @@ Lab Due Date Lab 8 = Friday July 28th
 
 Redirection
 
-/dev/null
+/dev/null - the blackhole for output
 
 >, <, << 
 
-Clobbering as a system setting
+Clobbering as a system setting, clobbering is the act of overwriting an existing file.
 
-Functionality - Menu code
+Functionality - Menu code (see code)
 
