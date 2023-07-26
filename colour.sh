@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/bin/bash 
+
+: '
+
+    I have never see this before. Yikes.
+
+'
 
 for ii in {0..7}
 do
