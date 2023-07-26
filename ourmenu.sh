@@ -18,17 +18,18 @@ while  [[ ${choice::1} != 'Q' ]]
         grep -w $name /etc/passwd | cut -d':' -f 5 | cut -d',' -f 1
 
         echo
-        echo Welcome to the System
+        echo "Welcome to the System"
 
         echo 
-        echo Note that these are administrative functions so you
-        echo will require the administrative password.
+        echo "Note that these are administrative functions so you"
+        echo "will require the administrative password."
 
         echo
-        echo Enter your choice:
+        echo "Enter your choice:"
         echo "(P)rint out your user information"
         echo "(S)earch for a user\'s information"
         echo "(A)dd a readme to a user\'s home directory"
+        echo "(L)ist all the files owned by a group"
 
         echo
         echo "(Q)uit the menu"
@@ -60,12 +61,16 @@ while  [[ ${choice::1} != 'Q' ]]
                 if [[ $(sudo grep -iw $searchname /etc/passwd) ]] 
                 then 
                     read targetdirectory < <(sudo grep -iw $searchname /etc/passwd | cut -d':' -f 6)
-                    if [[ ! $(ls $targetdirectory) ]] 
+                    if [[ ! $(ls $targetdirectory >& /dev/null) ]] 
                     then
                         echo "directory not found, sorry"
                     else
-                        sudo cp ./readme.txt ${targetdirectory}
-                        echo file copied
+                        if [[ ! $(sudo cp ./readme.txt ${targetdirectory}) ]]
+                        then
+                            echo "file copied"
+                        else    
+                            echo "file not copied"
+                        fi
                     fi
                 else    
                     echo "user not found"
@@ -74,6 +79,36 @@ while  [[ ${choice::1} != 'Q' ]]
                 read -p 'press enter to continue' temp
                 ;;    
 
+            L)  read -p 'Enter the name of the group: ' groupname
+                
+                if [[ ! $(grep -i $groupname /etc/group) ]]
+                then
+                    echo "$groupname does not exist."
+                else
+                    read -p "Enter the directory path to list: " pathname
+
+                    if [[ ! $(ls -l ${pathname}) ]]
+                    then
+                        echo "$pathname is unreachable."
+                    else
+                        echo
+                        echo "The following items belong to $groupname:"
+
+                        while read -a listline < <(ls -l)
+                        do 
+                            echo $listline
+
+                            if [[ ${listline[3]} == $groupname ]]
+                            then
+                                echo "- ${listline[8]}"
+                            fi
+                        done 
+
+                    fi
+                fi
+
+                read -p 'press enter to continue' temp
+                ;;  
 
             *) echo "I have no clue what you want to do"
                 ;;
