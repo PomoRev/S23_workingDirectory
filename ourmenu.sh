@@ -1,4 +1,4 @@
-#!/bin/bash -u
+#!/bin/bash
 
 # make a menu that will do the following:
 #   print out the current user's entry from passwd
@@ -94,15 +94,13 @@ while  [[ ${choice::1} != 'Q' ]]
                         echo
                         echo "The following items belong to $groupname:"
 
-                        while read -a listline < <(ls -l)
+                        while read -a listline 
                         do 
-                            echo $listline
-
                             if [[ ${listline[3]} == $groupname ]]
                             then
                                 echo "- ${listline[8]}"
                             fi
-                        done 
+                        done < <(ls -l)
 
                     fi
                 fi
