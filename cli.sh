@@ -7,6 +7,8 @@ do
     then
         echo $1 is the current arg
         echo ${1#-w} is the remainder of the arg
+    else
+        echo $1 is not a great argument
     fi
 
     shift 1
