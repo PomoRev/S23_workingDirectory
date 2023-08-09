@@ -6,7 +6,7 @@
 
 function reverse {
     local word=''
-    for (( i=${#1}-1; i > 0; i-- ))
+    for (( i=${#1}-1; i >= 0; i-- ))
     do
         word+=${1:$i:1}
     done
